@@ -17,7 +17,7 @@ export default function Home() {
             </div>
             <div class="sections w-[50rem]">
               <div class="mx-auto grid max-w-6xl grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
-               
+
 
                 <a href="/javascript/introduction" class="group rounded-xl border border-white/10 bg-black/67 p-6 transition hover:border-white/20 hover:bg-white/10" >
                   <h3 class="text-lg font-semibold text-white">
@@ -53,7 +53,7 @@ export default function Home() {
                 </a>
                 <a href="/interview/web" class="group rounded-xl border border-white/10 bg-black/67 p-6 transition hover:border-white/20 hover:bg-white/10" >
                   <h3 class="text-lg font-semibold text-white">
-                     Interview Questions
+                    Interview Questions
                   </h3>
                   <p class="mt-2 text-sm text-white/60">
                     Step-by-step tutorials and examples
@@ -61,15 +61,31 @@ export default function Home() {
                 </a>
                 <a href="/web/regex" class="group rounded-xl border border-white/10 bg-black/67 p-6 transition hover:border-white/20 hover:bg-white/10" >
                   <h3 class="text-lg font-semibold text-white">
-                   
+
                     Regex
                   </h3>
                   <p class="mt-2 text-sm text-white/60">
                     Step-by-step tutorials and examples
                   </p>
                 </a>
+                <a href="/Network" class="group rounded-xl border border-white/10 bg-black/67 p-6 transition hover:border-white/20 hover:bg-white/10" >
+                  <h3 class="text-lg font-semibold text-white">
 
-               
+                    Network Requests
+                  </h3>
+                  <p class="mt-2 text-sm text-white/60">
+                    urls and domains
+                  </p>
+                </a>
+                <a href="/web/regex" class="group rounded-xl border border-white/10 bg-black/67 p-6 transition hover:border-white/20 hover:bg-white/10" >
+                  <h3 class="text-lg font-semibold text-white">
+
+                    Headers & Cookies
+                  </h3>
+                  <p class="mt-2 text-sm text-white/60">
+                    About Headers and Cookies in a https request
+                  </p>
+                </a>
               </div>
             </div>
           </div>

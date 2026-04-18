@@ -1,0 +1,121 @@
+# OS resolver
+The OS resolver is a small part of your operating system’s networking system whose job is to convert:
+```
+Domain name → into IP address
+```
+
+So when a program wants to reach:
+```
+example.com
+```
+the resolver finds:
+```
+example.com → 93.184.216.34
+```
+
+It may do this by:
+1. checking local DNS cache
+2. checking hosts file 
+3. asking configured DNS servers
+4. It’s basically the DNS client built into your OS.
+
+# How application calls the OS Resolver?
+Applications ask it through system calls / networking libraries.
+Examples of applications:
+```
+web browsers
+Node.js
+Python programs
+curl
+ping
+
+```
+When a browser needs an IP, it calls a function like:
+```
+getaddrinfo("example.com")
+```
+
+This function is provided by the OS networking library.
+```
+Browser
+   ↓
+calls OS resolver: getaddrinfo("example.com")
+   ↓
+OS resolver asks DNS server
+   ↓
+DNS server returns IP
+   ↓
+Browser gets 93.184.216.34
+   ↓
+Browser asks OS to connect to the ip via TCP (or UDP)
+```
+
+Most applications don’t implement DNS themselves.
+They rely on the OS resolver to do it.
+But some programs (like some browsers or DNS tools) can also implement their own DNS resolver instead of using the OS one.
+
+
+
+# Os Resolver under hood working 
+First Os resolver check cache before asking the dns server 
+
+## Browser / OS DNS Cache
+The system checks if the domain was already resolved recently.
+DNS responses include a TTL (Time To Live) which Os store in their DNS cache system.
+If the TTL hasn't expired, the cached IP will be reused.
+Result:
+```
+No DNS request needed
+```
+Note : Browsers keep their own DNS cache first so before asking Os directly they lookup it in their own cach that stays in memory once close it get clear or can go in `chrome://net-internals/#dns` to clear it
+If it's there and TTL hasn't expired the browser doesn't even ask the OS.
+
+
+## Hosts File
+Next the OS checks a local file that manually maps domains to IPs.
+Example entry:
+```
+127.0.0.1 example.com
+```
+
+Meaning . whenever you try to connect to example.com the os resolver (your pc) gonna redirect it to your computer (127.0.0.1) instead of example.com 's real ip adress
+This is being used for blocking scam sites , ad blocker 
+you can also edit this file an add your custom ip of specific domains by entering an ip adress followed by space and domain name
+example : 
+```
+127.0.0.1 youtube.com                                                            
+```
+don't forgot to clear the browser in memory dns or re open it
+
+
+
+Locations of the file:
+
+Linux/macOS
+```
+/etc/hosts
+```
+
+Windows
+```
+C:\Windows\System32\drivers\etc\hosts
+```
+
+This file overrides DNS completely.
+
+
+
+
+
+## Configured DNS Server
+If nothing is found, the resolver sends a DNS request to a configured DNS server such as:
+your ISP DNS
+public DNS servers
+local network DNS
+The DNS server then performs the recursive lookup (root → TLD → authoritative server).
+
+✅ After the IP is returned:
+```
+Browser → OS → TCP connect(IP, port)
+```
+Then the actual HTTP request begins.

@@ -1,0 +1,67 @@
+# WHAT IS NETWORK Layers
+Network layers are a structured way to organize how data moves from one computer to another. Instead of one giant protocol doing everything, networking is split into layers, where each layer has a specific job.
+
+Each layer wraps the data with its own information (called headers) before passing it to the next layer.
+
+# The Common Internet Layer Model (Simplified)
+Most internet communication follows a simplified TCP/IP stack:
+```
+Application Layer
+Transport Layer
+Internet Layer
+Network Interface Layer
+```
+
+# 1️⃣ [Application Layer](ApplicationLayer)
+This is where programs create the actual request.
+Examples:  
+HTTP (web)   
+DNS (domain lookup)  
+SMTP (email)  
+
+```
+GET / HTTP/1.1
+Host: example.com
+```
+
+# 2️⃣ [Transport Layer](TransportLayer)
+This layer manages communication between applications and ensures data delivery.
+Main protocols:
+TCP → reliable (web, email)   
+UDP → fast but less reliable (DNS, streaming)  
+It breaks the data into segments and adds port numbers.
+ex.
+```
+Source Port: 52341
+Destination Port: 443
+```
+
+# 3️⃣ [Internet layer](Internetlayer)
+This layer handles routing across the internet.
+Protocol:
+IP (Internet Protocol)
+```
+Source IP: 192.168.1.5
+Destination IP: 93.184.216.34
+```
+
+# 4️⃣ [Network Interface Layer](NetworkInterfaceLayer)
+This is the physical/local network layer.  
+It handles:  
+WiFi  
+Ethernet  
+MAC addresses  
+```
+Destination MAC: router's MAC
+```
+Your network card converts this into electrical signals or radio waves.
+
+# How Data Gets Wrapped (Encapsulation)
+Each layer wraps the previous layer’s data:
+```
+WiFi Frame
+  └ IP Packet
+       └ TCP Segment
+            └ HTTP Request
+```
+When the server receives it, the layers are unwrapped in reverse order.

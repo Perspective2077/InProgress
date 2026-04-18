@@ -1,0 +1,67 @@
+---
+title : netowrks
+---
+
+# A WEB request
+ok so how a webrequest work
+
+1. let's say you entered "example.com" on browser and hit ENTER
+
+2. What browser do is create a [DNS](/Network/dns) request to OS or sometimes have thier Own Dns resolver
+ 
+4. OS Wraps It in [Network Layers](/Network/layers/working)
+
+5. WiFi Transmission to Router
+
+6. Router Sends It to Your ISP
+
+7. DNS Server Resolves the Domain
+
+8. DNS Response Comes Back
+    
+9. Now the HTTP Request Can Start
+
+11. HTTPS Security (TLS Handshake)
+
+12. Browser Sends the HTTP Request
+
+13. Packets Travel Across the Internet
+
+14. Server Receives the Request
+
+15. Server Sends Response
+
+# Final Flow (Simplified)
+```
+Click URL
+↓
+DNS request
+↓
+Get IP address
+↓
+TCP handshake
+↓
+Firewall checks
+↓
+TCP established
+↓
+TLS handshake
+↓
+HTTP request
+↓
+Server processes HTTP response and return Data
+↓
+Browser renders page
+```
+
+## The Most Important Thing to Realize
+When you open a website dozens of requests happen:
+```
+HTML
+CSS
+JS
+Images
+Fonts
+API calls
+```
+A normal page can trigger 50–300 requests.

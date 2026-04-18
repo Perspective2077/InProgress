@@ -2,7 +2,7 @@ import { defineConfig } from "@solidjs/start/config";
 import { createWithSolidBase, defineTheme } from "@kobalte/solidbase/config";
 import defaultTheme from "@kobalte/solidbase/default-theme";
 import tailwindcss from "@tailwindcss/vite";
-
+import remarkBreaks from "remark-breaks";
 const theme = defineTheme({
     componentsPath: import.meta.resolve("./src/theme"),
     extends: defaultTheme,
@@ -11,24 +11,38 @@ const theme = defineTheme({
 
 
 export default defineConfig(
-    createWithSolidBase(theme)(
-        {
-            server: {
-                prerender: {
-                    crawlLinks: true,
-                },
-                esbuild: { options: { target: "es2022" } },
+    createWithSolidBase(theme)({
+        server: {
+            prerender: {
+                crawlLinks: true,
             },
-            vite: {
-                plugins: [
-                    tailwindcss(),
-                ],
-            },
+            esbuild: { options: { target: "es2022" } },
         },
+        vite: {
+            plugins: [
+                tailwindcss(),
+            ],
+        },
+
+    },
         {
             title: "",
             description: "",
             lang: "en",
+            markdown: {
+                expressiveCode: {},
+
+                toc: {
+                    minDepth: 2,
+                    maxDepth: 4,
+                },
+
+                remarkPlugins: [
+                    remarkBreaks
+                ],
+
+                rehypePlugins: [],
+            },
             themeConfig: {
                 nav: [
                     {
@@ -66,7 +80,7 @@ export default defineConfig(
                                     link: "/whathelly"
                                 },
                             ]
-                            
+
                         },
                         {
                             title: "Data Types",
@@ -253,7 +267,7 @@ export default defineConfig(
                                     title: "Interview Questions",
                                     link: "/questions"
                                 },
-                               
+
                             ]
                         },
                         {
@@ -298,7 +312,7 @@ export default defineConfig(
                                     link: "/whathelly"
                                 },
                             ]
-                            
+
                         },
                         {
                             title: "Data Types",
@@ -485,7 +499,7 @@ export default defineConfig(
                                     title: "Interview Questions",
                                     link: "/questions"
                                 },
-                               
+
                             ]
                         },
                         {
@@ -512,7 +526,7 @@ export default defineConfig(
                             title: "Regex",
                             link: "/Regex"
                         },
-                     
+
                     ],
                     "/mongodb": [
                         {
@@ -543,15 +557,15 @@ export default defineConfig(
                                     title: "Create data",
                                     link: "/Methods"
                                 },
-                               
+
                             ]
-                            
+
                         },
                         {
                             title: "Middleware and Query",
                             collapsed: true,
                             items: [
-                             {
+                                {
                                     title: "Middleware",
                                     link: "/Methods"
                                 },
@@ -559,14 +573,56 @@ export default defineConfig(
                                     title: "Query Object",
                                     link: "/queryObject"
                                 },
-                            
-                            
+
+
+                            ]
+                        },
+                    ],
+                    "/canvas": [
+                        {
+                            title: "Introduction",
+                            link: "/introduction"
+                        },
+                        {
+                            title: "Get-Started",
+                            collapsed: true,
+                            items: [
+                                {
+                                    title: "Schema",
+                                    link: "/Schema"
+                                },
+                                {
+                                    title: "models",
+                                    link: "/models"
+                                },
+                                {
+                                    title: "Create data",
+                                    link: "/Methods"
+                                },
+
+                            ]
+
+                        },
+                        {
+                            title: "Middleware and Query",
+                            collapsed: true,
+                            items: [
+                                {
+                                    title: "Middleware",
+                                    link: "/Methods"
+                                },
+                                {
+                                    title: "Query Object",
+                                    link: "/queryObject"
+                                },
+
+
                             ]
                         },
                     ],
 
                 }
             }
-        },       
+        },
     )
 );

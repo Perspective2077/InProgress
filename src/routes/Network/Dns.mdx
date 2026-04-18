@@ -1,0 +1,108 @@
+# What is a DNS (Domain Naming system)
+So Dns is Domain naming system that translate your [domains](Network/domain) into [Ip Adresses](/Network/IpAdress) that computers use to communicate on the internet. so as they say internet's phonebook 
+
+# What is a DNS request
+A DNS request (DNS query) is a message your computer sends to a DNS server asking: “What is the IP address for this domain?”. The server then responds with the correct IP so your browser can connect to the website’s server.
+
+# How a DNS Request look like
+A DNS request is a small binary packet (not readable text like HTTP). But conceptually it contains fields like this:
+```Header
+  ID: 0x1a2b
+  Flags: standard query
+  Questions: 1
+
+Question Section
+  Name: example.com
+  Type: A
+  Class: IN
+```
+Name → the domain you want (example.com)
+Type → what record you want (A = IPv4 address)
+Class → internet (IN)
+
+
+# How DNS SERVER WORKS
+DNS is a distributed hierarchical system. Different servers store different parts.
+```
+Browser
+↓
+Os Resolver
+↓
+DNS resolver (ISP or Google)
+↓
+Root server
+↓
+TLD server (.com)
+↓
+Authoritative DNS (ns1.example-dns.com)
+↓
+Returns IP address
+```
+Example resolution:   
+DNS asks root server → "who handles .com?"   
+Then asks .com server → "who handles example.com?"   
+Then asks example.com's authoritative DNS → "what is its IP?"
+
+#What the Resolver Actually Does
+Instead of your computer talking to root → TLD → authoritative servers, the resolver does it for you.   
+Your browser asks the resolver: “What is the IP address of example.com?” and the resolver goes through the DNS system to find the answer.
+They make DNS faster and simpler because they cache results.
+
+
+# ROOT SERVER OWNER
+Root DNS servers are operated by major organizations under coordination of the Internet Corporation for Assigned Names and Numbers (ICANN).
+
+Some organizations that run them include:
+
+Verisign
+
+NASA
+
+University of Maryland
+
+RIPE NCC
+
+These organizations operate the 13 logical root server systems (A–M).
+
+# ROOT SERVERS
+Root servers don’t know the IP of every website.   
+They only know which DNS servers manage each top-level domain.
+
+```
+example.com ?
+Root server response:
+Ask the .com DNS servers
+```
+
+# TDL SERVER
+A TLD DNS server stores information about domains under a specific top-level domain like
+```
+.com
+.org
+.net
+.in
+```
+It does not store the website’s IP address.
+Instead, it tells you which authoritative DNS server manages that domain.
+
+
+
+# HOW DNS block ads and also sometimes allow blocked site
+##  block ads
+Normally the resolver returns the real IP. Your browser then connects to that server and loads the ad.
+ex. adgaurd dns server just have blocked ip adress of those domains which provide ads for website or apps
+so if you play a game and that game using google's ad so if they try to connect to ads.google.com for ads loading , the dns server just block it and they never get to load the ads
+although if they have hardcode ip adress which doesn't need dns server to go through or use a server to for loading ad's then it's not possible
+
+## allow blocked site
+ISPs block domains by making their DNS resolver return a fake result. ( ex if goverment or college told them to )
+Example ISP DNS reply:
+```
+blockedsite.com → 127.0.0.1 (not real ip)
+```
+If you switch DNS to something else like:
+```
+Cloudflare (1.1.1.1)
+Google Public DNS (8.8.8.8)
+```
+those resolvers may return the real IP, so the site loads. unless they also blocked the ip 

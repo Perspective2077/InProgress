@@ -1,0 +1,83 @@
+# Network Protocol ( rules / niyam)
+These are communication protocols used by applications to talk to each other over the internet.
+Both the browser and server understand this format because they follow the HTTP rules.
+
+
+# 2. How Many Are There?
+```
+HTTP / HTTPS => websites & APIs
+DNS	=> domain lookup
+SMTP =>	sending email
+IMAP / POP3	=> reading email
+FTP / SFTP =>	file transfer
+WebSocket =>	real-time communication
+```
+
+
+# 3. How protocol works
+## 1. First Problem: Finding the Server
+When your program wants to talk to a server it needs:
+```
+IP address
+Port number
+```
+Meaning:  
+93.184.216.34 → which computer  
+443 → which service on that computer   
+
+## 2. Opening a Connection
+
+Most application protocols use [TCP](tcp) for connection.
+Connection starts with the TCP handshake.
+```
+Client → SYN
+Server → SYN + ACK
+Client → ACK
+```
+After this:
+
+```Connection established```
+
+Now both machines have a reliable communication channel.
+This happens at the transport layer using
+TCP.
+
+
+## 3. What Happens After Connection
+
+Once TCP is established:
+
+`Client ↔ Server`
+they can send raw bytes to each other.
+
+Example:   
+`01001001 00100000 01001000 01001001  ` 
+TCP does not care what the data means.
+
+It only ensures:
+
+packets arrive   
+packets are in order  
+lost packets are resent
+
+## 6. Why TCP Exists Before Protocols
+
+Without TCP you would have problems:   
+packets arriving out of order    
+packets lost    
+packets duplicated   
+TCP solves those problems before the protocol even sees the data.
+
+
+# 4. Can You Create Your Own Protocol?
+
+A protocol is just a defined message format and rules.
+Example of a simple custom protocol:
+```Client sends: LOGIN username password
+```
+
+```Server replies: OK```
+
+If both the client and server agree on the rules, you have created a protocol.
+Many real protocols started like this before becoming standards.
+

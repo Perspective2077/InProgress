@@ -1,0 +1,140 @@
+---
+title : Http headers 
+---
+
+# HTTP headers
+
+## Default ( Automatically added by browser / OS)
+```
+Host: example.com  
+User-Agent: Chrome/...      
+Accept: */*
+Connection: keep-alive
+```
+1. Host : the target domain or ip adress if used it 
+although if you use ip adress instead of domain 
+remeber that a server can have multiple host means there could be 
+example.com  example1.com example2.com  running at same time
+so ip host will mostly fail but if configured in the system it can go to default site 
+
+
+
+
+User-Agent : Just a string chosen by the client ( so don't rely on this )
+browsers automatically adds it if you are using a runtime usaully they add their name or maybe leave it empty
+
+
+
+
+## Restricted (you CANNOT modify easily)
+Browsers block some headers for security:
+
+Host
+Content-Length
+Connection
+Origin (partially controlled)
+
+👉 Prevents hacking / spoofing
+
+## 1. Request Headers (Client → Server)
+```
+Host: example.com
+User-Agent: Chrome
+Accept: application/json
+Authorization: Bearer token
+```
+
+Host → which domain you're requesting
+User-Agent → browser/device info
+Accept → what formats you want
+Authorization → login/auth data
+
+
+
+2. Response Headers (Server → Client)
+Tell the browser how to handle the response.
+```
+Content-Type: application/json
+Content-Length: 123
+Set-Cookie: session=abc
+Cache-Control: no-cache
+```
+
+What they do:
+Content-Type → what kind of data this is
+Set-Cookie → store data in browser
+Cache-Control → caching rules
+
+
+## 3. General Headers (Both sides)
+Used in both request and response.
+```
+Date: Tue, 01 Jan 2024
+Connection: keep-alive
+```
+
+## 4. Entity Headers (About the body)
+Describe the actual data being sent.
+```
+Content-Type: text/html
+Content-Encoding: gzip
+Content-Length: 1024
+```
+
+# ⚙️ 3. Custom Headers
+You can create your own:
+```
+X-My-App: hello
+```
+Used in APIs a lot.
+
+## 4. Headers Are Just Key-Value Pairs
+```
+Key: Value
+```
+Example:
+```
+Content-Type: application/json
+```
+
+
+
+# ⚠️ 6. Important Real-World Behavior
+Headers control:
+```
+- Authentication (Authorization)
+- Sessions (Cookie)
+- Security (CORS, CSP)
+- Performance (Cache-Control, gzip)
+```
+
+
+## 🔹 Fully controllable headers
+
+You can set these:
+
+```
+fetch("/api", {
+  headers: {
+    "Authorization": "Bearer xyz",
+    "Content-Type": "application/json",
+    "X-Custom": "hello"
+  }
+})
+```
+👉 Common editable ones:
+
+Authorization
+Content-Type
+Accept
+Custom headers (X-* or any name)
+
+## Restricted (you CANNOT modify easily)
+
+Browsers block some headers for security:
+Host
+Content-Length
+Connection
+Origin (partially controlled)
+
+👉 Prevents hacking / spoofing

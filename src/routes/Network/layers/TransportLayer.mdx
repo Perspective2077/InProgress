@@ -1,0 +1,135 @@
+# Transport Layer
+As name says , The Transport Layer is responsible for connecting network request between different computers. It takes data from the Application Layer and ensures it reaches the application layer on the destination machine.   
+
+
+## How it works
+Example you enter `example.com` in your browser 
+The browser asks the OS resolver to perform a DNS lookup for Domain Name System.
+
+```
+  Application (Browser)
+        ↓
+   Socket API
+        ↓
+ OS Kernel Networking Stack
+        ↓
+       TCP
+        ↓
+        IP
+        ↓
+Network hardware (WiFi / Ethernet)
+```
+So the OS is responsible for running TCP.
+
+# 2. What the Application Does
+
+Applications only call system functions like:
+```
+listen(port)
+connect(ip, port)
+send(data)
+recv(data)
+```
+Example Node server:
+```
+server.listen(4000)
+```
+This tells the OS:
+```
+"Create a TCP listening socket on port 4000"
+```
+
+The OS kernel then handles:  
+incoming TCP SYN packets  
+TCP handshake   
+packet ordering  
+retransmissions   
+
+
+## 4. Why TCP Is in the OS
+TCP must run in the kernel because it needs direct control over:
+
+1. network hardware
+
+2. packet routing
+
+3. buffering
+
+4. retransmissions
+
+5. timers
+
+ User applications don't have that level of access.
+
+
+
+
+
+
+# What the Transport Layer Actually Does
+When an application sends data:
+The transport layer adds port numbers
+It splits data into segments
+It manages delivery
+
+example : 
+```
+App data
+↓
+Transport layer adds:
+Source Port
+Destination Port
+↓
+Creates a segment
+```
+Example fields inside a transport segment:
+```
+Source Port: 52341
+Destination Port: 443
+Data: HTTP request
+```
+
+## Why Ports Exist
+One computer runs many programs using the network at the same time.
+Ports allow the transport layer to deliver data to the correct program.
+```
+Port 80   → Web server (HTTP)
+Port 443  → Secure web (HTTPS)
+Port 53   → DNS
+```
+So when data arrives:
+```
+Destination IP → correct computer
+Destination Port → correct application
+```
+## Simple Example Flow
+If your browser loads a webpage:
+```
+HTTP request
+↓
+Transport layer adds port numbers
+↓
+Creates TCP segment
+↓
+Passes to IP layer for routing
+```
+
+
+## Its main jobs are:
+```
+breaking data into pieces (segments)
+sending them
+ensuring they reach the right port/application
+```
+```
+Application Layer   → HTTP, DNS, SMTP
+Transport Layer     → TCP, UDP
+Internet Layer      → IP
+Network Interface   → WiFi / Ethernet
+```
+
+# TDLR
+The Transport Layer manages communication between applications, adds port numbers, and handles how data is delivered between programs across the network.
+Applications don’t talk directly to IP — they talk to the transport layer first.  
+Applications (your Node server, browser, etc.) do not implement TCP themselves. They ask the operating system kernel to handle networking.
+

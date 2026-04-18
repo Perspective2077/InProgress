@@ -1,0 +1,24 @@
+# WHAT IS TCP
+TCP is a transport layer protocol that provides a reliable connection between two computers.   
+Its job is to:
+```
+establish a connection
+send data reliably
+ensure order
+close the connection
+```
+Before any HTTP request, a TCP connection must exist.
+
+## Where TCP Lives in the Stack
+```
+Application (HTTP, DNS, SMTP)
+↓
+Transport (TCP)
+↓
+Internet (IP)
+↓
+Network (WiFi / Ethernet)
+
+```
+TCP sits between applications and IP routing.
+Applications give data to TCP → TCP handles delivery.

@@ -2,13 +2,13 @@
 import { RouteSectionProps, useLocation } from "@solidjs/router";
 
 // ERror fallback component
-import { createEffect, createSignal, ErrorBoundary } from "solid-js";
+import { createEffect, createSignal, ErrorBoundary, sharedConfig } from "solid-js";
 
 // Gives you the title of the page
 import { Title } from "@solidjs/meta";
 
 // Listen for dark/light mode then applies to all page ,hook from kobalte
-import { useThemeListener } from "@kobalte/solidbase/client";
+import { SidebarProvider, useThemeListener } from "@kobalte/solidbase/client";
 
 // the top route page loaders
 import { usePace } from "@kobalte/solidbase/default-theme/pace.js";
@@ -16,43 +16,52 @@ import { usePace } from "@kobalte/solidbase/default-theme/pace.js";
 import Layout from "@kobalte/solidbase/default-theme/Layout.jsx";
 import { DefaultThemeComponentsProvider } from "@kobalte/solidbase/default-theme/context.jsx";
 import MyCustomHeader from "./Header";
+import { useRouteConfig } from "@kobalte/solidbase/default-theme/utils.js";
 // import Header from "@kobalte/solidbase/default-theme/components/Header.js";
-
-
-
+let RoutesToBeIgnored = [
+  "/",
+  "/network/layers",
+  "/network/layers/",
+  "/test"
+]
 
 export default function (props: RouteSectionProps) {
   const location = useLocation();
-  let [isHome, setisHome] = createSignal(true)
-  createEffect(()=>{
+  let [ignoreRoute, setIgnoreRoute] = createSignal(true)
+
+
+  createEffect(() => {
     useThemeListener();
     usePace();
   })
 
   createEffect(() => {
-    if (location.pathname === "/") {
-      setisHome(true)
+    if (RoutesToBeIgnored.includes(location.pathname.toLowerCase())) {
+      setIgnoreRoute(true)
     } else {
-      setisHome(false)
-
+      setIgnoreRoute(false)
     }
   })
+  const cfg = useRouteConfig();
 
-  // Docs pages → SolidBase layout
   return (
     <>
-      {isHome() ? <>
-        {props.children}</>
-        :
-        <DefaultThemeComponentsProvider components={{ Header: MyCustomHeader }}>
-          <Layout>
-            <Title>Docs</Title>
-            <ErrorBoundary fallback={() => <div>Nothing found</div>}>
-              {props.children}
-            </ErrorBoundary>
-          </Layout>
-        </DefaultThemeComponentsProvider>
-      }
+
+      <DefaultThemeComponentsProvider components={{ Header: MyCustomHeader }}>
+        <SidebarProvider config={cfg().themeConfig?.sidebar}>
+          {
+            ignoreRoute() ? <>
+              {props.children}</>
+              :
+              <Layout>
+                <Title>Docs</Title>
+                <ErrorBoundary fallback={() => <div>Nothing found</div>}>
+                  {props.children}
+                </ErrorBoundary>
+              </Layout>
+          }
+        </SidebarProvider>
+      </DefaultThemeComponentsProvider>
     </>
   );
 }

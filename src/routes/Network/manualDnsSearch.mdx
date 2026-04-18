@@ -1,0 +1,52 @@
+# How to use dns on a site
+
+## Using Command Line (Best way)
+On Windows / Linux / macOS:
+```
+nslookup example.com
+```
+
+Output:
+```
+example.com
+Address: 93.184.216.34
+```
+## Alternative
+```
+ping example.com
+```
+Output:
+```
+Pinging example.com [93.184.216.34]
+```
+
+
+## Using Code (Node.js)
+
+```
+import dns from "dns";
+
+dns.lookup("example.com", (err, address) => {
+  console.log(address);
+}); 
+``` 
+This uses the OS resolver (same thing we discussed earlier).
+
+## . Important Things to Know
+🔹 One domain ≠ one IP
+
+Big sites like:
+```
+Google
+Cloudflare
+```
+
+use multiple IPs.
+So you might get different results each time.
+
+
+## CDN / Load Balancing
+You might not get the “real server IP”, but a nearby server:
+```
+example.com → nearest CDN server
+```

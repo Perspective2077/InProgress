@@ -1,0 +1,141 @@
+# What is ARP
+ARP (Address Resolution Protocol) converts an IP address into a MAC address on a local network.
+
+Why this is needed:
+```
+IP address → identifies device on the internet
+MAC address → identifies device on the local network (LAN)
+```
+
+# Example Situation
+
+Your computer wants to send a packet to:
+```
+93.184.216.34
+```
+
+But your computer is on a local network like:
+```
+192.168.1.x
+```
+
+So your computer actually sends the packet to the router first.
+
+## Step 1 — Check ARP Cache
+Your OS checks its ARP table:
+```
+192.168.1.1 → 34:ab:37:91:22:10
+```
+If the router's MAC is already known, it uses it immediately.
+
+## Step 2 — ARP Request (Broadcast)
+If the MAC is unknown, the computer broadcasts:
+```
+Who has 192.168.1.1?
+Tell 192.168.1.25
+```
+This goes to every device in the LAN.
+
+## Step 3 — Router Replies
+If none above knows , Your router replies:
+```
+192.168.1.1 is at 34:ab:37:91:22:10
+```
+Now your computer stores it in the ARP cache.
+
+## Step 4 — Packet Leaves Your Computer
+
+Now the packet is sent like this:
+```
+Destination MAC → Router MAC
+Destination IP  → 93.184.216.34
+```
+The router then forwards it toward the internet.
+
+
+# After wards
+
+## . Your Computer Sends the Packet to the Router
+After DNS, TCP setup, and ARP, your computer sends a packet like:
+
+```
+Destination IP: 93.184.216.34
+Destination MAC: Router MAC
+```
+Important:
+```
+MAC → router
+IP  → final server
+```
+The router receives the packet because its MAC address matched.
+
+
+
+## 2. Router Reads the IP Header
+
+Routers operate mainly at the IP layer using
+Internet Protocol.
+The router ignores the TCP/HTTP parts and only looks at:
+
+```
+Destination IP: 93.184.216.34
+```
+## 3. Router Checks Its Routing Table
+
+Routers maintain a routing table like
+```
+Network         Next Hop
+0.0.0.0/0       ISP Gateway
+192.168.1.0     Local network
+```
+
+For an internet address like 93.184.216.34, the router decides:
+
+```
+Send to ISP gateway
+```
+
+
+## 4. Packet Moves to the Next Router
+Before sending it, the router again needs the MAC address of the next hop (usually the ISP router).
+So it may perform ARP again on its side.
+Router Uses the destination IP to Decide Next Hop
+The router checks its routing table  ( The routing table is decided by the router itself, but it learns the routes from a few different sources.)
+```
+Routers usually have a default route that says:
+If you don't know where to send something → send it her
+```
+Example:
+```
+0.0.0.0/0 → ISP gateway
+```
+Then it forwards the packet.
+
+
+## 5. This Happens Many Times
+Your packet travels through multiple routers:
+
+```
+Your PC
+   ↓
+Home Router
+   ↓
+ISP Router
+   ↓
+Regional Router
+   ↓
+Internet backbone routers
+   ↓
+Destination network router
+   ↓
+Web server
+```
+
+
+Each router repeats the same process:
+```
+Read destination IP
+Look up routing table
+Forward to next hop
+```
+ 

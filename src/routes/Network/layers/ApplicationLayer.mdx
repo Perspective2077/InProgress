@@ -1,0 +1,48 @@
+# Application Layer
+he Application Layer is the top layer of networking where programs (browsers, games, apps) create and understand network messages. It defines how applications talk to each other over the internet.    
+aka `It is the layer where the actual request/response format is defined.`
+
+## What Happens in the Application Layer
+At this layer, your program decides what it wants to do.   
+Example actions:
+Load a webpage
+Send an email
+Resolve a domain name
+Fetch API data
+
+Example HTTP request created here:
+```
+GET /api/users HTTP/1.1
+Host: example.com
+User-Agent: Chrome
+```
+
+## Common Application Layer [Protocols](/Network/Layers/Protocol)
+Some well-known protocols at this layer:
+```
+HTTP / HTTPS → websites and APIs
+DNS → domain → IP lookup
+SMTP → sending email
+FTP → file transfer
+```
+
+
+The Application Layer does NOT send packets itself.
+It just creates the message format.
+Then it passes the data down to the next layer:
+```Application Layer → Transport Layer → Internet Layer → Network Layer```
+
+
+
+## Example (Your Browser)
+When you run:
+```fetch("https://example.com/data")```
+The browser creates an HTTP request at the Application Layer, then the lower layers handle:
+splitting data
+routing it
+transmitting it over the network
+
+
+## TDLR 
+`The Application Layer is where applications define the data they want to send and how that data should be interpreted by the receiving application.`
+

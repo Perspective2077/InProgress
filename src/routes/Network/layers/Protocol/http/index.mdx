@@ -1,0 +1,101 @@
+---
+Title : http
+---
+
+# What is HTTP
+HTTP ( Hyper Text transfer protocol) is a text-based protocol used by browsers and servers to communicate.
+
+In which you define
+```
+- Headers (information about the request & body)
+- Body ( carries data of your request )
+```
+
+## How http request looks like
+A http request is just a text which looks like this
+```
+POST /login HTTP/1.1
+Host: example.com
+Content-Type: application/json
+Content-Length: 32
+
+{"username":"abc","password":"123"}
+```
+host is the target website we requesting to
+
+Structure
+```
+[Request Line]  => request goal
+[Headers]      =>  metadata / instructions of request 
+(empty line)
+[Body]         => actual request data (optional)
+```
+
+
+## Request Line
+```
+GET /api/users HTTP/1.1
+```
+👉 This tells:
+```
+- Method → GET / POST / PUT / DELETE
+- Path   → /api/users
+- Version → HTTP/1.1
+```
+
+
+## [Headers](headers)
+```
+Content-Type: application/json
+Authorization: Bearer xyz
+Accept: application/json
+```
+instructions + metadata about the request
+
+## 3️⃣ Empty Line
+
+👉 This is mandatory.
+It tells the parser
+"headers ended, body starts now"
+cause the http request is just a litreal text so it need to know which part is which
+
+ 
+
+
+
+
+
+
+## 📦 2. What happens after this is created?
+```
+HTTP message (plain text)
+        ↓
+Given to OS
+        ↓
+Wrapped into TCP packets
+        ↓
+Sent over network
+```
+
+## HTTPS (HTTP + TLS)
+HTTPS uses TLS encryption.
+Flow:
+```
+1. TCP connection established
+2. TLS handshake happensz
+3. Encryption keys created
+4. THEN HTTP message is sent (encrypted)
+```
+🔒 What actually gets encrypted?
+The whole thing
+```
+POST /login HTTP/1.1
+Host: example.com
+Content-Type: application/json
+
+{"username":"abc","password":"123"}
+```
+becomes
+```
+asdjkh12k3j1k2j3h12kj3h...
+```
